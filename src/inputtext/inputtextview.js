@@ -7,8 +7,8 @@
  * @module ui/inputtext/inputtextview
  */
 
-import View from '../view';
-import '../../theme/components/inputtext/inputtext.css';
+import View from "../view";
+import "../../theme/components/inputtext/inputtext.css";
 
 /**
  * The text input view class.
@@ -19,8 +19,8 @@ export default class InputTextView extends View {
 	/**
 	 * @inheritDoc
 	 */
-	constructor( locale ) {
-		super( locale );
+	constructor(locale) {
+		super(locale);
 
 		/**
 		 * The value of the input.
@@ -28,7 +28,7 @@ export default class InputTextView extends View {
 		 * @observable
 		 * @member {String} #value
 		 */
-		this.set( 'value' );
+		this.set("value");
 
 		/**
 		 * The `id` attribute of the input (i.e. to pair with a `<label>` element).
@@ -36,7 +36,7 @@ export default class InputTextView extends View {
 		 * @observable
 		 * @member {String} #id
 		 */
-		this.set( 'id' );
+		this.set("id");
 
 		/**
 		 * The `placeholder` attribute of the input.
@@ -44,7 +44,7 @@ export default class InputTextView extends View {
 		 * @observable
 		 * @member {String} #placeholder
 		 */
-		this.set( 'placeholder' );
+		this.set("placeholder");
 
 		/**
 		 * Controls whether the input view is in read-only mode.
@@ -52,7 +52,7 @@ export default class InputTextView extends View {
 		 * @observable
 		 * @member {Boolean} #isReadOnly
 		 */
-		this.set( 'isReadOnly', false );
+		this.set("isReadOnly", false);
 
 		/**
 		 * Set to `true` when the field has some error. Usually controlled via
@@ -61,7 +61,7 @@ export default class InputTextView extends View {
 		 * @observable
 		 * @member {Boolean} #hasError
 		 */
-		this.set( 'hasError', false );
+		this.set("hasError", false);
 
 		/**
 		 * The `id` of the element describing this field, e.g. when it has
@@ -70,30 +70,30 @@ export default class InputTextView extends View {
 		 * @observable
 		 * @member {Boolean} #ariaDesribedById
 		 */
-		this.set( 'ariaDesribedById' );
+		this.set("ariaDesribedById");
 
 		const bind = this.bindTemplate;
 
-		this.setTemplate( {
-			tag: 'input',
+		this.setTemplate({
+			tag: "input",
 			attributes: {
-				type: 'text',
+				type: "text",
 				class: [
-					'ck',
-					'ck-input',
-					'ck-input-text',
-					bind.if( 'hasError', 'ck-error' )
+					"ck",
+					"ck-input",
+					"ck-input-text",
+					bind.if("hasError", "ck-error")
 				],
-				id: bind.to( 'id' ),
-				placeholder: bind.to( 'placeholder' ),
-				readonly: bind.to( 'isReadOnly' ),
-				'aria-invalid': bind.if( 'hasError', true ),
-				'aria-describedby': bind.to( 'ariaDesribedById' )
+				id: bind.to("id"),
+				placeholder: bind.to("placeholder"),
+				readonly: bind.to("isReadOnly"),
+				"aria-invalid": bind.if("hasError", true),
+				"aria-describedby": bind.to("ariaDesribedById")
 			},
 			on: {
-				input: bind.to( 'input' )
+				input: bind.to("input")
 			}
-		} );
+		});
 
 		/**
 		 * Fired when the user types in the input. Corresponds to the native
@@ -110,23 +110,28 @@ export default class InputTextView extends View {
 		super.render();
 
 		const setValue = value => {
-			this.element.value = ( !value && value !== 0 ) ? '' : value;
+			this.element.value = !value && value !== 0 ? "" : value;
 		};
 
-		setValue( this.value );
+		setValue(this.value);
 
 		// Bind `this.value` to the DOM element's value.
 		// We cannot use `value` DOM attribute because removing it on Edge does not clear the DOM element's value property.
-		this.on( 'change:value', ( evt, name, value ) => {
-			setValue( value );
-		} );
+		this.on("change:value", (evt, name, value) => {
+			setValue(value);
+		});
 	}
 
 	/**
 	 * Moves the focus to the input and selects the value.
 	 */
 	select() {
-		this.element.select();
+		// IE 11 trigger focus event on select()
+		if ("clipboardData" in window) {
+			this.element.setSelectionRange(0, this.value.length);
+		} else {
+			this.element.select();
+		}
 	}
 
 	/**
