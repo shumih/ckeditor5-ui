@@ -28,7 +28,7 @@ export default class InputTextView extends View {
 		 * @observable
 		 * @member {String} #value
 		 */
-		this.set("value");
+		this.set("value", '');
 
 		/**
 		 * The `id` attribute of the input (i.e. to pair with a `<label>` element).
@@ -128,7 +128,7 @@ export default class InputTextView extends View {
 	select() {
 		// IE 11 trigger focus event on select()
 		if ("clipboardData" in window) {
-			this.element.setSelectionRange(0, this.value ? this.value.length: 0);
+			this.value && this.element.setSelectionRange(0, this.value);
 		} else {
 			this.element.select();
 		}
