@@ -128,7 +128,7 @@ export default class InputTextView extends View {
 	select() {
 		// IE 11 trigger focus event on select()
 		if ("clipboardData" in window) {
-			this.element.setSelectionRange(0, this.value.length);
+			this.element.setSelectionRange(0, this.value ? this.value.length: 0);
 		} else {
 			this.element.select();
 		}

@@ -8,7 +8,7 @@
     "ckeditor 5",
     "ckeditor5-lib"
   ],
-  "dependencies": {
+  "peerDependencies": {
     "@ckeditor/ckeditor5-core": "^12.1.0",
     "@ckeditor/ckeditor5-utils": "^12.1.0",
     "lodash-es": "^4.17.10"
